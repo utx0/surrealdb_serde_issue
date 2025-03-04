@@ -21,14 +21,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let reader = BufReader::new(file);
     let json_obj: Value = serde_json::from_reader(reader).unwrap();
 
-    // TODO; Writes to the db fine but fails to return the Option<Value>
+    // TODO; Writes to the db fine but fails to return the Option<Value> error;
     // Error: Db(Serialization("invalid type: enum, expected any valid JSON value"))
     // let value: Option<Value> = db.create("json_data").content(json_obj.clone()).await?;
 
     // Deserialize into a block type
     let block_data: UiConfirmedBlock = from_value(json_obj).unwrap();
 
-    // TODO; Write to the dbs fine but fails to return the Option<UiConfirmedBlock>
+    // TODO; Write to the dbs fine but fails to return the Option<UiConfirmedBlock> error;
     // Error: Db(Serialization("failed to deserialize; expected an enum variant of Result, found {  }"))
     let block: Option<UiConfirmedBlock> = db.create("block_data").content(block_data).await?;
 
