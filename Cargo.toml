@@ -1,0 +1,11 @@
+[package]
+name = "poc7"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+base64 = "0.22.1"
+serde_json = "1.0.139"
+solana-transaction-status = "2.2.0"
+surrealdb = "2.2.1"
+tokio = { version = "1", features = ["full"] }
