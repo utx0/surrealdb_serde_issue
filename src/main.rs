@@ -6,6 +6,7 @@ use std::io::BufReader;
 use std::time::Instant;
 use surrealdb::Surreal;
 use surrealdb::engine::remote::ws::Ws;
+use surrealdb::opt::Resource;
 use surrealdb::opt::auth::Root;
 
 #[tokio::main]
@@ -26,14 +27,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let start = Instant::now();
         // Save the json data into surrealdb
-        let _json_data: Option<Value> = match db.create("json_data").content(json_obj.clone()).await
-        {
-            Ok(result) => result,
-            Err(e) => {
-                // eprintln!("Error: {}", e);
-                None
-            }
-        };
+        let _json_data: surrealdb::Value = db
+            .create(Resource::from("json_data"))
+            .content(json_obj.clone())
+            .await
+            .unwrap();
+
         let duration = start.elapsed();
         println!("0000: Time elapsed: {:?}", duration);
 
@@ -42,17 +41,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let start = Instant::now();
         // Save the block data into surrealdb
-        let _block: Option<UiConfirmedBlock> =
-            match db.create("block_data").content(block_data).await {
-                Ok(result) => result,
-                Err(e) => {
-                    // eprintln!("Error: {}", e);
-                    None
-                }
-            };
+        let _block: surrealdb::Value = db
+            .create(Resource::from("block_data"))
+            .content(block_data)
+            .await
+            .unwrap();
+
         let duration = start.elapsed();
         println!("1111: Time elapsed: {:?}", duration);
     }
 
-    Ok(())
+    // Ok(())
 }
